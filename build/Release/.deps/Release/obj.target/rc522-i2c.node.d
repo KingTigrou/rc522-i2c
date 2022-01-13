@@ -1,0 +1,1 @@
+cmd_Release/obj.target/rc522-i2c.node := g++ -o Release/obj.target/rc522-i2c.node -shared -pthread -rdynamic  -Wl,-soname=rc522-i2c.node -Wl,--start-group Release/obj.target/rc522-i2c/src/rc522.o Release/obj.target/rc522-i2c/src/rfid.o Release/obj.target/rc522-i2c/src/accessor.o -Wl,--end-group -lbcm2835

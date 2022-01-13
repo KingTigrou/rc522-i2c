@@ -1,0 +1,1 @@
+cmd_Release/rc522-i2c.node := ln -f "Release/obj.target/rc522-i2c.node" "Release/rc522-i2c.node" 2>/dev/null || (rm -rf "Release/rc522-i2c.node" && cp -af "Release/obj.target/rc522-i2c.node" "Release/rc522-i2c.node")
