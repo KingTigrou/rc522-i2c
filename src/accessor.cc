@@ -49,8 +49,6 @@ uint8_t initRfidReader(uint8_t pin_rst, uint8_t i2c_address)
         printf("Init Error\n");
         return 1;
     }
-    bcm2835_gpio_fsel(pin_rst, BCM2835_GPIO_FSEL_OUTP);
-    bcm2835_gpio_set(pin_rst);
 
     bcm2835_i2c_begin();
     bcm2835_i2c_setClockDivider(BCM2835_I2C_CLOCK_DIVIDER_150);
@@ -75,12 +73,19 @@ static void WorkAsync(uv_work_t *req)
     }
     InitRc522();
     bool running = true;
-    while (running)
+    // ButtonOn level of pin
+    bool buttonOn = bcm2835_gpio_lev(work->gpio_rst_pin);
+    // if Button = off result = "";
+    if(!boutonOn){ work->result = string(""); }
+
+    while (running && ButtonOn)
     {
+        //re check
+        buttonOn = bcm2835_gpio_lev(work->gpio_rst_pin);
         statusRfidReader = find_tag(&CType);
         if (statusRfidReader == TAG_NOTAG)
         {
-
+            printf("NO_TAG_FOUND\n");
             // The status that no tag is found is sometimes set even when a tag is within reach of the tag reader
             // to prevent that the reset is performed the no tag event has to take place multiple times (ger: entrprellen)
             if (noTagFoundCount > 2)
@@ -119,11 +124,12 @@ static void WorkAsync(uv_work_t *req)
 
         // Only when the serial number of the currently detected tag differs from the
         // recently detected tag the callback will be executed with the serial number
-        if (strcmp(work->rfidChipSerialNumberRecentlyDetected, work->rfidChipSerialNumber) != 0)
-        {
+        // if (strcmp(work->rfidChipSerialNumberRecentlyDetected, work->rfidChipSerialNumber) != 0)
+        // {
+            printf("TAG FOUND: ");
             work->result = string(work->rfidChipSerialNumber);
             running = false;
-        }
+        // }
 
         // Preserves the current detected serial number, so that it can be used
         // for future evaluations
