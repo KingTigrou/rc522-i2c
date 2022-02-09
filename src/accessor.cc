@@ -76,9 +76,9 @@ static void WorkAsync(uv_work_t *req)
     // ButtonOn level of pin
     bool buttonOn = bcm2835_gpio_lev(work->gpio_rst_pin);
     // if Button = off result = "";
-    if(!boutonOn){ work->result = string(""); }
+    if(!buttonOn){ work->result = string(""); }
 
-    while (running && ButtonOn)
+    while (running && buttonOn)
     {
         //re check
         buttonOn = bcm2835_gpio_lev(work->gpio_rst_pin);
