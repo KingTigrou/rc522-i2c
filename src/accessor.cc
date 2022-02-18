@@ -99,7 +99,7 @@ static void WorkAsync(uv_work_t *req)
                 noTagFoundCount++;
             }
 
-            usleep(500000);
+            usleep(200000);
             continue;
         }
         else if (statusRfidReader != TAG_OK && statusRfidReader != TAG_COLLISION)
@@ -126,7 +126,7 @@ static void WorkAsync(uv_work_t *req)
         // recently detected tag the callback will be executed with the serial number
         if (strcmp(work->rfidChipSerialNumberRecentlyDetected, work->rfidChipSerialNumber) != 0)
         {
-            printf("TAG_FOUND:");
+            // printf("TAG_FOUND:");
             work->result = string(work->rfidChipSerialNumber);
             running = false;
             usleep(1000000);
