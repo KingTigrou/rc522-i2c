@@ -85,7 +85,7 @@ static void WorkAsync(uv_work_t *req)
         statusRfidReader = find_tag(&CType);
         if (statusRfidReader == TAG_NOTAG)
         {
-            printf("NO_TAG_FOUND\n");
+            // printf("NO_TAG_FOUND\n");
             // The status that no tag is found is sometimes set even when a tag is within reach of the tag reader
             // to prevent that the reset is performed the no tag event has to take place multiple times (ger: entrprellen)
             if (noTagFoundCount > 2)
@@ -99,7 +99,7 @@ static void WorkAsync(uv_work_t *req)
                 noTagFoundCount++;
             }
 
-            usleep(200000);
+            usleep(500000);
             continue;
         }
         else if (statusRfidReader != TAG_OK && statusRfidReader != TAG_COLLISION)
@@ -124,12 +124,12 @@ static void WorkAsync(uv_work_t *req)
 
         // Only when the serial number of the currently detected tag differs from the
         // recently detected tag the callback will be executed with the serial number
-        // if (strcmp(work->rfidChipSerialNumberRecentlyDetected, work->rfidChipSerialNumber) != 0)
-        // {
-            printf("TAG FOUND: ");
+        if (strcmp(work->rfidChipSerialNumberRecentlyDetected, work->rfidChipSerialNumber) != 0)
+        {
+            printf("TAG_FOUND:");
             work->result = string(work->rfidChipSerialNumber);
             running = false;
-        // }
+        }
 
         // Preserves the current detected serial number, so that it can be used
         // for future evaluations
