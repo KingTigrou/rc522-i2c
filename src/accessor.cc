@@ -129,6 +129,8 @@ static void WorkAsync(uv_work_t *req)
             printf("TAG_FOUND:");
             work->result = string(work->rfidChipSerialNumber);
             running = false;
+            usleep(1000000);
+
         }
 
         // Preserves the current detected serial number, so that it can be used
