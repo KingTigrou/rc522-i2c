@@ -53,7 +53,7 @@ uint8_t initRfidReader(uint8_t pin_rst, uint8_t i2c_address)
     bcm2835_i2c_begin();
     bcm2835_i2c_setClockDivider(BCM2835_I2C_CLOCK_DIVIDER_150);
     bcm2835_i2c_setSlaveAddress(i2c_address);
-    bcm2835_i2c_set_baudrate(1000000); //1M baudrate
+    bcm2835_i2c_set_baudrate(9600); //1M baudrate
     return 0;
 }
 
